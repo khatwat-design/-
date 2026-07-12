@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw camera originals and duplicate source photos (unused by the app)
+public/*.ARW
+public/درع روكلس *.jpg

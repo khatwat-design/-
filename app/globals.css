@@ -1,26 +1,86 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-cairo);
+  --color-brand-bg: #000000;
+  --color-brand-bg-soft: #0a0a0a;
+  --color-brand-card: #111111;
+  --color-brand-red: #e01414;
+  --color-brand-red-bright: #ff1f1f;
+  --color-brand-white: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #e01414;
+  color: #ffffff;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(224, 20, 20, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(224, 20, 20, 0);
+  }
+}
+
+.pulse-cta {
+  animation: pulse-glow 2.2s ease-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #ff5252 0%,
+    #ffffff 50%,
+    #ff5252 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3.5s linear infinite;
+}
+
+.grid-fade {
+  background-image: linear-gradient(
+      rgba(224, 20, 20, 0.12) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(224, 20, 20, 0.12) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 60% 50% at 50% 30%,
+    black 40%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse 60% 50% at 50% 30%,
+    black 40%,
+    transparent 80%
+  );
 }
