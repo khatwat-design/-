@@ -56,6 +56,7 @@ export function CheckoutClient() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [governorate, setGovernorate] = useState("");
+  const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState<SubmitStatus>("idle");
@@ -79,7 +80,7 @@ export function CheckoutClient() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !governorate || !address.trim()) {
+    if (!name.trim() || !phone.trim() || !governorate || !city.trim() || !address.trim()) {
       setErrorMsg("الرجاء تعبئة جميع الحقول المطلوبة.");
       return;
     }
@@ -95,6 +96,7 @@ export function CheckoutClient() {
           name: name.trim(),
           phone: phone.trim(),
           governorate,
+          city: city.trim(),
           address: address.trim(),
           notes: notes.trim(),
         }),
@@ -329,6 +331,20 @@ export function CheckoutClient() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-xs font-bold text-white/70">
+                المدينة / القضاء
+              </label>
+              <input
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                type="text"
+                required
+                className="w-full rounded-xl border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-[#e01414]"
+                placeholder="مثال: الكرادة، أبو الخصيب، عنكاوا"
+              />
             </div>
 
             <div>

@@ -15,7 +15,7 @@ export interface PricingPackage {
   highlight?: boolean;
 }
 
-const UNIT_PRICE = 25000;
+export const UNIT_PRICE = 25000;
 const DELIVERY = 5000;
 
 function buildPackage(
