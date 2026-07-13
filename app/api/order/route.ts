@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
   // Best-effort sync to the RKS ERP (rocklis.cloud). Never blocks the
   // customer's confirmation — Telegram above is the source of truth.
   try {
-    await fetch(ROCKLIS_CLOUD_API_URL, {
+    const erpRes = await fetch(ROCKLIS_CLOUD_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       signal: AbortSignal.timeout(8000),
@@ -95,6 +95,14 @@ export async function POST(req: NextRequest) {
         source: ROCKLIS_CLOUD_SOURCE,
       }),
     });
+
+    if (!erpRes.ok) {
+      const errorBody = await erpRes.text();
+      console.error(
+        `rocklis.cloud ERP sync failed (${erpRes.status}):`,
+        errorBody
+      );
+    }
   } catch (err) {
     console.error("rocklis.cloud ERP sync failed:", err);
   }
