@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PACKAGES, getPackage, formatIQD, type PackageId } from "@/lib/pricing";
 import { IRAQ_GOVERNORATES } from "@/lib/governorates";
-import { trackPixelEvent } from "./MetaPixel";
+import { trackPixelEvent, usePurchaseGuard } from "./MetaPixel";
 
 type Step = 1 | 2 | 3;
 type SubmitStatus = "idle" | "submitting" | "error";
@@ -49,6 +49,8 @@ export function CheckoutClient() {
   const searchParams = useSearchParams();
   const initialId = Number(searchParams.get("pkg")) || 3;
 
+  const { trackPurchaseOnce } = usePurchaseGuard();
+
   const [step, setStep] = useState<Step>(1);
   const [selectedId, setSelectedId] = useState<PackageId>(
     (PACKAGES.some((p) => p.id === initialId) ? initialId : 3) as PackageId
@@ -68,6 +70,7 @@ export function CheckoutClient() {
     trackPixelEvent("InitiateCheckout", {
       value: selectedPackage.total,
       currency: "IQD",
+      quantity: selectedPackage.qty,
       content_name: selectedPackage.title,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,10 +113,10 @@ export function CheckoutClient() {
         return;
       }
 
-      trackPixelEvent("Purchase", {
+      trackPurchaseOnce({
         value: selectedPackage.total,
-        currency: "IQD",
-        content_name: selectedPackage.title,
+        quantity: selectedPackage.qty,
+        contentName: selectedPackage.title,
       });
       setStatus("idle");
       setStep(3);
